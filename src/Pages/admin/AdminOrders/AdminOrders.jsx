@@ -8,6 +8,7 @@ import { EyeOutlined, DeleteOutlined, SearchOutlined, FilterOutlined, ReloadOutl
 import { getAdminOrders, updateAdminOrderStatus, deleteAdminOrder } from "../../../services/api";
 import dayjs from "dayjs";
 import { getToken } from "../../../utils/auth";
+import { BACKEND_URL } from "../../../config";
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -109,7 +110,7 @@ function AdminOrders() {
     const token = getToken();
     const { keyword, status, dateRange } = filters;
 
-    let url = `http://localhost:3001/api/admin/orders/export?token=${token}`;
+    let url = `${BACKEND_URL}/api/admin/orders/export?token=${token}`;
 
     if (keyword) {
       url += `&keyword=${encodeURIComponent(keyword)}`;

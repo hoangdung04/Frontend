@@ -6,6 +6,7 @@ import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../utils/cart";
 import { message as antdMessage } from "antd";
+import { BACKEND_URL } from "../../config";
 import "./AIChat.css";
 
 const BookingFormWidget = ({ bookingForm, onSuccess }) => {
@@ -446,7 +447,7 @@ const AIChat = () => {
 
   // Lắng nghe Socket.io real-time cập nhật trạng thái thanh toán thành công
   useEffect(() => {
-    const socket = io("http://localhost:3001");
+    const socket = io(BACKEND_URL);
     socket.on("connect", () => {
       console.log("Đã kết nối Socket tại AIChat để nghe thông báo thanh toán");
     });

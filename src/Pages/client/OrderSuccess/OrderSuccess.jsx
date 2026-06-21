@@ -7,6 +7,7 @@ import { HomeOutlined, FileTextOutlined, BankOutlined, DollarOutlined, CheckCirc
 import { getOrderSuccess } from "../../../services/api";
 import { io } from "socket.io-client";
 import axios from "axios";
+import { BACKEND_URL } from "../../../config";
 import "./OrderSuccess.css";
 
 const { Text, Title } = Typography;
@@ -55,7 +56,7 @@ function OrderSuccess() {
     if (!orderCode) return;
 
     // 1. Socket.io
-    const socket = io("http://localhost:3001");
+    const socket = io(BACKEND_URL);
     socket.on("connect", () => {
       console.log("Đã kết nối Socket để nghe thông báo thanh toán");
     });

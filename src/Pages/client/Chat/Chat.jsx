@@ -4,10 +4,11 @@ import { SendOutlined, UserOutlined, PictureOutlined, SmileOutlined, CheckOutlin
 import { Popover, Upload } from "antd";
 import { io } from "socket.io-client";
 import { getToken, getUser } from "../../../utils/auth";
+import { BACKEND_URL } from "../../../config";
 
 const { Text } = Typography;
 // Kết nối Socket tự động không cần auth
-const socket = io("http://localhost:3001");
+const socket = io(BACKEND_URL);
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -59,7 +60,7 @@ const Chat = () => {
 
   // Gọi API (CSR) để lấy tin nhắn khi trang vừa tải xong
   useEffect(() => {
-    fetch("http://localhost:3001/api/chat", {
+    fetch(`${BACKEND_URL}/api/chat`, {
       headers: {
         "Authorization": `Bearer ${getToken()}`
       },

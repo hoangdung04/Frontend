@@ -3,10 +3,11 @@ import { Input, Button, List, Typography, Avatar, Layout, Spin, Badge, notificat
 import { SendOutlined, UserOutlined, MessageOutlined, PictureOutlined, SmileOutlined, CheckOutlined } from "@ant-design/icons";
 import { io } from "socket.io-client";
 import { getToken, getUser } from "../../../utils/auth";
+import { BACKEND_URL } from "../../../config";
 
 const { Text } = Typography;
 const { Sider, Content } = Layout;
-const socket = io("http://localhost:3001");
+const socket = io(BACKEND_URL);
 
 const AdminChat = () => {
   const [rooms, setRooms] = useState([]);
@@ -103,7 +104,7 @@ const AdminChat = () => {
   }, []);
 
   const fetchRooms = () => {
-    fetch("http://localhost:3001/api/admin/chat/rooms", {
+    fetch(`${BACKEND_URL}/api/admin/chat/rooms`, {
       headers: { "Authorization": `Bearer ${getToken()}` },
     })
       .then((res) => res.json())
@@ -123,7 +124,7 @@ const AdminChat = () => {
   useEffect(() => {
     if (!activeRoomId) return;
 
-    fetch(`http://localhost:3001/api/admin/chat/rooms/${activeRoomId}`, {
+    fetch(`${BACKEND_URL}/api/admin/chat/rooms/${activeRoomId}`, {
       headers: { "Authorization": `Bearer ${getToken()}` },
     })
       .then((res) => res.json())

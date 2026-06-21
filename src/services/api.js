@@ -7,9 +7,11 @@ import {
   clearAuth
 } from '../utils/auth';
 
+import { BACKEND_URL } from '../config';
+
 // Config axios - baseURL trỏ tới backend
 const api = axios.create({
-  baseURL: 'http://localhost:3001/api',
+  baseURL: `${BACKEND_URL}/api`,
   headers: {
     'Content-Type': 'application/json'
   }
