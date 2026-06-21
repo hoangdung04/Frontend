@@ -1,0 +1,30 @@
+/* Admin Header */
+.admin-header {
+  background: #001529 !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px;
+  height: 56px;
+  line-height: 56px;
+  box-shadow: 0 1px 4px rgba(0,21,41,0.35);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
+.admin-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-user-info {
+  padding: 4px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.admin-user-info:hover {
+  background: rgba(255,255,255,0.08);
+}

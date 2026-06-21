@@ -1,0 +1,172 @@
+/* ==========================================
+   CLIENT AUTH — Login / Register page
+   Premium glassmorphism card
+========================================== */
+
+.client-auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0a1628 0%, #0d3326 50%, #00b96b 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+}
+
+/* Floating decoration circles */
+.client-auth-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,185,107,0.12), transparent 70%);
+  animation: floatCircle 12s ease-in-out infinite;
+  z-index: 0;
+}
+.client-auth-circle--1 {
+  width: 550px; height: 550px;
+  top: -180px; left: -180px;
+}
+.client-auth-circle--2 {
+  width: 420px; height: 420px;
+  bottom: -120px; right: -120px;
+  animation-delay: -6s;
+}
+
+@keyframes floatCircle {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(30px, -30px) scale(1.06); }
+}
+
+/* Glassmorphism card */
+.client-auth-card {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 24px;
+  padding: 48px 40px 40px;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 32px 64px rgba(0,0,0,0.18);
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Logo */
+.client-auth-logo {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.client-auth-logo-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin: 0 auto 16px;
+  display: block;
+  filter: drop-shadow(0 8px 20px rgba(0,185,107,0.25));
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.client-auth-card:hover .client-auth-logo-img {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.client-auth-title {
+  font-family: 'Playfair Display', serif !important;
+  margin: 0 !important;
+  color: var(--dark) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.5px;
+}
+
+.client-auth-subtitle {
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Inputs */
+.client-input .ant-input,
+.client-input {
+  border-radius: 12px !important;
+  height: 52px;
+  background-color: #f8faf9 !important;
+  border: 1.5px solid var(--border) !important;
+  font-size: 15px !important;
+  transition: all 0.25s;
+}
+.client-input:hover {
+  border-color: #c8d5d0 !important;
+}
+.client-input:focus-within {
+  background-color: #fff !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px rgba(0,185,107,0.08) !important;
+}
+
+.input-icon {
+  color: var(--text-muted);
+  font-size: 18px;
+  margin-right: 8px;
+  transition: color 0.2s;
+}
+.client-input:focus-within .input-icon {
+  color: var(--primary);
+}
+
+/* Submit button */
+.client-auth-btn {
+  height: 54px !important;
+  border-radius: 27px !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: var(--shadow-green) !important;
+  transition: all 0.3s !important;
+  margin-top: 8px;
+}
+.client-auth-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 14px 32px rgba(0,185,107,0.35) !important;
+  filter: brightness(1.04);
+}
+.client-auth-btn:active {
+  transform: translateY(1px) !important;
+}
+
+/* Tabs */
+.client-auth-tabs .ant-tabs-nav {
+  margin-bottom: 28px !important;
+}
+.client-auth-tabs .ant-tabs-tab-btn {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+.client-auth-tabs .ant-tabs-tab:hover .ant-tabs-tab-btn {
+  color: var(--text-primary);
+}
+.client-auth-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--primary) !important;
+}
+.client-auth-tabs .ant-tabs-ink-bar {
+  background: var(--primary) !important;
+  height: 3px !important;
+  border-radius: 3px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .client-auth-card { padding: 36px 24px 28px; }
+  .client-auth-btn  { height: 48px !important; border-radius: 24px !important; }
+}

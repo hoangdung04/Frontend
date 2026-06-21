@@ -1,0 +1,6 @@
+/* Admin Content */
+.admin-content {
+  padding: 24px;
+  background: #f5f6fa;
+  min-height: calc(100vh - 56px);
+}

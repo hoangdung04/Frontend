@@ -1,0 +1,29 @@
+/* ==========================================
+   BOX HEAD — Section header component
+========================================== */
+.box-head {
+  margin-bottom: 36px;
+  position: relative;
+}
+
+.box-head-title {
+  color: var(--dark) !important;
+  font-weight: 800 !important;
+  font-size: 26px !important;
+  margin-bottom: 6px !important;
+  letter-spacing: -0.3px;
+}
+
+.box-head-subtitle {
+  color: var(--text-secondary);
+  margin: 0 0 14px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.box-head-divider {
+  width: 48px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), #52c41a);
+  border-radius: 2px;
+}

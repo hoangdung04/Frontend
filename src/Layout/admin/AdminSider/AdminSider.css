@@ -1,0 +1,31 @@
+/* Admin Sider */
+.admin-sider {
+  min-height: 100vh;
+  box-shadow: 2px 0 8px rgba(0,21,41,0.35);
+}
+
+.sider-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+}
+
+.sider-logo-img {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,185,107,0.3));
+}
+
+.sider-logo-text {
+  font-size: 16px;
+  color: #ffffff !important;
+}
+
+.admin-menu {
+  border-right: none !important;
+  margin-top: 8px;
+}
