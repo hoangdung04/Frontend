@@ -7,11 +7,9 @@ import {
   clearAuth
 } from '../utils/auth';
 
-import { BACKEND_URL } from '../config';
-
 // Config axios - baseURL trỏ tới backend
 const api = axios.create({
-  baseURL: `${BACKEND_URL}/api`,
+  baseURL: import.meta.env.VITE_API_BASE_URL ? `${import.meta.env.VITE_API_BASE_URL}/api` : 'http://localhost:3001/api',
   headers: {
     'Content-Type': 'application/json'
   }

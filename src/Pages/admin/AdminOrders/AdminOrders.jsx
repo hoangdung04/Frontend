@@ -8,7 +8,6 @@ import { EyeOutlined, DeleteOutlined, SearchOutlined, FilterOutlined, ReloadOutl
 import { getAdminOrders, updateAdminOrderStatus, deleteAdminOrder } from "../../../services/api";
 import dayjs from "dayjs";
 import { getToken } from "../../../utils/auth";
-import { BACKEND_URL } from "../../../config";
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -110,7 +109,8 @@ function AdminOrders() {
     const token = getToken();
     const { keyword, status, dateRange } = filters;
 
-    let url = `${BACKEND_URL}/api/admin/orders/export?token=${token}`;
+    const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001";
+    let url = `${apiBase}/api/admin/orders/export?token=${token}`;
 
     if (keyword) {
       url += `&keyword=${encodeURIComponent(keyword)}`;

@@ -3,11 +3,10 @@ import { Input, Button, List, Typography, Avatar, Layout, Spin, Badge, notificat
 import { SendOutlined, UserOutlined, MessageOutlined, PictureOutlined, SmileOutlined, CheckOutlined } from "@ant-design/icons";
 import { io } from "socket.io-client";
 import { getToken, getUser } from "../../../utils/auth";
-import { BACKEND_URL } from "../../../config";
 
 const { Text } = Typography;
 const { Sider, Content } = Layout;
-const socket = io(BACKEND_URL);
+const socket = io(import.meta.env.VITE_API_BASE_URL || "http://localhost:3001");
 
 const AdminChat = () => {
   const [rooms, setRooms] = useState([]);
@@ -104,7 +103,8 @@ const AdminChat = () => {
   }, []);
 
   const fetchRooms = () => {
-    fetch(`${BACKEND_URL}/api/admin/chat/rooms`, {
+    const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001";
+    fetch(`${apiBase}/api/admin/chat/rooms`, {
       headers: { "Authorization": `Bearer ${getToken()}` },
     })
       .then((res) => res.json())
@@ -124,7 +124,8 @@ const AdminChat = () => {
   useEffect(() => {
     if (!activeRoomId) return;
 
-    fetch(`${BACKEND_URL}/api/admin/chat/rooms/${activeRoomId}`, {
+    const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001";
+    fetch(`${apiBase}/api/admin/chat/rooms/${activeRoomId}`, {
       headers: { "Authorization": `Bearer ${getToken()}` },
     })
       .then((res) => res.json())
