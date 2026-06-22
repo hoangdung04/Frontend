@@ -240,51 +240,6 @@ function AdminOrders() {
     <div style={{ padding: 24 }}>
       <Title level={3} style={{ marginBottom: 20 }}>Quản lý Đơn đặt Tour</Title>
 
-      {/* ====== Bảng thống kê số liệu & tổng doanh thu ====== */}
-      <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
-        <Col xs={24} sm={12} md={6}>
-          <Card bordered={false} style={{ background: "#e6f7ff", borderRadius: 8, boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
-            <Statistic
-              title="Tổng số đơn hiển thị"
-              value={totalCount}
-              valueStyle={{ color: '#1890ff', fontWeight: 'bold' }}
-              suffix="đơn"
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Card bordered={false} style={{ background: "#f6ffed", borderRadius: 8, boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
-            <Statistic
-              title="Tổng doanh thu lọc được"
-              value={totalRevenue}
-              precision={0}
-              valueStyle={{ color: '#52c41a', fontWeight: 'bold' }}
-              suffix="đ"
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Card bordered={false} style={{ background: "#fffbe6", borderRadius: 8, boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
-            <Statistic
-              title="Đơn chờ thanh toán"
-              value={unpaidCount}
-              valueStyle={{ color: '#faad14', fontWeight: 'bold' }}
-              suffix="đơn"
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Card bordered={false} style={{ background: "#fff2f0", borderRadius: 8, boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
-            <Statistic
-              title="Đơn đã hủy"
-              value={cancelledCount}
-              valueStyle={{ color: '#ff4d4f', fontWeight: 'bold' }}
-              suffix="đơn"
-            />
-          </Card>
-        </Col>
-      </Row>
-
       {/* ====== Bộ tìm kiếm / lọc nâng cao ====== */}
       <Card style={{ marginBottom: 16, borderRadius: 8 }}>
         <Row gutter={[12, 12]} align="middle" justify="space-between">
@@ -365,6 +320,21 @@ function AdminOrders() {
           rowKey="id"
           loading={loading}
           pagination={{ pageSize: 10, showTotal: (t) => `Tổng ${t} đơn hàng` }}
+          summary={() => (
+            <Table.Summary fixed>
+              <Table.Summary.Row style={{ background: "#f6ffed", fontWeight: "bold" }}>
+                <Table.Summary.Cell index={0} colSpan={3}>
+                  <div style={{ textAlign: "right", paddingRight: 16 }}>Tổng doanh thu lọc được:</div>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={1}>
+                  <span style={{ color: "#f5222d", fontSize: 16 }}>
+                    {totalRevenue.toLocaleString()}đ
+                  </span>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={2} colSpan={4} />
+              </Table.Summary.Row>
+            </Table.Summary>
+          )}
         />
       </Card>
     </div>
