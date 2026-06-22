@@ -1,4 +1,4 @@
-import { Layout, Menu, Badge, Typography, Button, Space, Avatar, Dropdown, Input, List } from "antd";
+import { Layout, Menu, Badge, Typography, Button, Space, Avatar, Dropdown, Input, List, Drawer } from "antd";
 import {
   HomeOutlined,
   AppstoreOutlined,
@@ -13,6 +13,7 @@ import {
   SearchOutlined,
   MessageOutlined,
   ReadOutlined,
+  MenuOutlined,
 } from "@ant-design/icons";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getCartCount } from "../../../utils/cart";
@@ -36,6 +37,7 @@ function Header() {
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const searchRef = useRef(null);
   const searchTimerRef = useRef(null);
 
@@ -57,6 +59,7 @@ function Header() {
     setSearchOpen(false);
     setSearchValue("");
     setSearchResults([]);
+    setMobileMenuOpen(false);
   }, [location.pathname]);
 
   // Close search on click outside
@@ -309,6 +312,149 @@ function Header() {
           </Space>
         )}
       </div>
+
+      {/* Hamburger Toggle Button for mobile */}
+      <Button
+        type="text"
+        icon={<MenuOutlined style={{ fontSize: 20 }} />}
+        className="header-mobile-toggle"
+        onClick={() => setMobileMenuOpen(true)}
+      />
+
+      {/* Mobile Menu Drawer */}
+      <Drawer
+        title="Danh mục chính"
+        placement="right"
+        onClose={() => setMobileMenuOpen(false)}
+        open={mobileMenuOpen}
+        width={280}
+        className="header-mobile-drawer"
+      >
+        {/* Mobile Search Bar */}
+        <div className="mobile-search-wrapper" style={{ marginBottom: 24, position: "relative" }}>
+          <Input
+            placeholder="Tìm kiếm tour..."
+            prefix={<SearchOutlined style={{ color: "#9ca3af" }} />}
+            className="mobile-search-input"
+            value={searchValue}
+            onChange={(e) => {
+              handleSearchChange(e.target.value);
+              if (!searchOpen) setSearchOpen(true);
+            }}
+            onFocus={() => {
+              if (searchValue.trim()) setSearchOpen(true);
+            }}
+            allowClear
+          />
+          {/* Mobile search dropdown container */}
+          {searchOpen && searchValue.trim() && (
+            <div className="mobile-search-dropdown" style={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              background: "#fff",
+              border: "1px solid rgba(0,185,107,0.12)",
+              borderRadius: "8px",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+              zIndex: 1000,
+              maxHeight: "200px",
+              overflowY: "auto"
+            }}>
+              {searching ? (
+                <div style={{ padding: 12, textAlign: "center", color: "#9ca3af" }}>Đang tìm kiếm...</div>
+              ) : searchResults.length === 0 ? (
+                <div style={{ padding: 12, textAlign: "center", color: "#9ca3af" }}>Không tìm thấy tour</div>
+              ) : (
+                searchResults.slice(0, 5).map((tour) => (
+                  <div
+                    key={tour.id}
+                    className="search-result-item"
+                    onClick={() => handleSelectTour(tour)}
+                    style={{ padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 8, cursor: "pointer", borderBottom: "1px solid #f0f0f0" }}
+                  >
+                    <img
+                      src={tour.image || "https://placehold.co/64x46?text=Tour"}
+                      alt={tour.title}
+                      style={{ width: 40, height: 30, objectFit: 'cover', borderRadius: 4 }}
+                    />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{tour.title}</div>
+                      <div style={{ fontSize: 12, color: 'var(--primary)', fontWeight: 700 }}>{tour.price_special?.toLocaleString("vi-VN")}đ</div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Mobile Menu */}
+        <Menu
+          theme="light"
+          mode="inline"
+          selectedKeys={[selectedKey()]}
+          items={menuItems}
+          style={{ borderRight: 'none', marginBottom: 24 }}
+        />
+
+        {/* Mobile Auth actions */}
+        <div className="mobile-auth-wrapper" style={{ borderTop: "1px solid #f0f0f0", paddingTop: 20 }}>
+          {loggedIn ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "0 12px" }}>
+                <Avatar
+                  icon={<UserOutlined />}
+                  style={{ backgroundColor: "#00b96b" }}
+                  src={user?.avatar}
+                />
+                <Text strong>{user?.fullName || "Admin"}</Text>
+              </div>
+              <ul className="mobile-user-links" style={{ listStyle: "none", padding: 0, margin: "12px 0" }}>
+                {userMenuItems.map((item) => {
+                  if (item.type === "divider") return <hr key={Math.random()} style={{ border: "none", borderTop: "1px solid #f0f0f0", margin: "8px 0" }} />;
+                  if (item.key === "logout") {
+                    return (
+                      <li key={item.key} style={{ padding: "8px 12px", color: "#ff4d4f", cursor: "pointer", fontWeight: 600 }} onClick={item.onClick}>
+                        {item.icon} <span style={{ marginLeft: 8 }}>{item.label}</span>
+                      </li>
+                    );
+                  }
+                  return (
+                    <li key={item.key} style={{ padding: "8px 12px" }}>
+                      {item.icon} <span style={{ marginLeft: 8 }}>{item.label}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <Button
+                type="primary"
+                icon={<LoginOutlined />}
+                style={{ width: "100%", borderRadius: "20px" }}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigate("/login");
+                }}
+              >
+                Đăng nhập
+              </Button>
+              <Button
+                type="default"
+                style={{ width: "100%", borderRadius: "20px" }}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigate("/register");
+                }}
+              >
+                Đăng ký
+              </Button>
+            </div>
+          )}
+        </div>
+      </Drawer>
     </AntHeader>
   );
 }

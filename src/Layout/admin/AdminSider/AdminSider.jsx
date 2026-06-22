@@ -25,7 +25,7 @@ import { adminMe } from "../../../services/api";
 const { Sider } = Layout;
 const { Text } = Typography;
 
-function AdminSider() {
+function AdminSider({ collapsed, onCollapse }) {
   const location = useLocation();
   const [isSuperAdmin, setIsSuperAdmin] = useState(() => {
     const cachedTitle = localStorage.getItem("admin_role_title");
@@ -189,7 +189,17 @@ function AdminSider() {
   });
 
   return (
-    <Sider width={240} className="admin-sider" theme="dark">
+    <Sider
+      width={240}
+      breakpoint="lg"
+      collapsedWidth="0"
+      trigger={null}
+      collapsible
+      collapsed={collapsed}
+      onCollapse={onCollapse}
+      className="admin-sider"
+      theme="dark"
+    >
       {/* Logo area */}
       <div className="sider-logo">
         <img src={logoImg} className="sider-logo-img" alt="TourVN Logo" />

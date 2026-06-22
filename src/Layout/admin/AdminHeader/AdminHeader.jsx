@@ -4,6 +4,8 @@ import {
   LogoutOutlined,
   BellOutlined,
   HomeOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
 } from "@ant-design/icons";
 import { useNavigate, Link } from "react-router-dom";
 import { getUser, clearAuth } from "../../../utils/auth";
@@ -13,7 +15,7 @@ import "./AdminHeader.css";
 const { Header: AntHeader } = Layout;
 const { Text } = Typography;
 
-function AdminHeader() {
+function AdminHeader({ collapsed, onToggle }) {
   const navigate = useNavigate();
   const user = getUser();
 
@@ -42,6 +44,13 @@ function AdminHeader() {
 
   return (
     <AntHeader className="admin-header">
+      {/* Sider toggle hamburger button */}
+      <Button
+        type="text"
+        icon={collapsed ? <MenuUnfoldOutlined style={{ fontSize: 18, color: "rgba(255,255,255,0.85)" }} /> : <MenuFoldOutlined style={{ fontSize: 18, color: "rgba(255,255,255,0.85)" }} />}
+        onClick={onToggle}
+        className="admin-sider-toggle"
+      />
       <div className="admin-header-right">
         {/* Nút xem giao diện client */}
         <Link to="/" target="_blank">
