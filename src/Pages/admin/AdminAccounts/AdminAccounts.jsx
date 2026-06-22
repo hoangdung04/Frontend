@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import {
-  Table, Button, Space, Tag, Popconfirm, message, Typography, Card, Avatar, Tooltip
+  Table, Button, Space, Tag, Popconfirm, message, Typography, Card, Avatar, Tooltip, Input
 } from "antd";
 import {
-  PlusOutlined, EditOutlined, DeleteOutlined, UserOutlined, ReloadOutlined
+  PlusOutlined, EditOutlined, DeleteOutlined, UserOutlined, ReloadOutlined, SearchOutlined
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { getAdminAccounts, deleteAdminAccount } from "../../../services/api";
@@ -13,6 +13,7 @@ const { Title } = Typography;
 function AdminAccounts() {
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
 
   const fetchAccounts = async () => {
@@ -38,6 +39,16 @@ function AdminAccounts() {
       message.error("Xóa thất bại");
     }
   };
+
+  const filteredAccounts = accounts.filter((item) => {
+    const term = searchText.toLowerCase().trim();
+    if (!term) return true;
+    const nameMatch = (item.fullName || "").toLowerCase().includes(term);
+    const emailMatch = (item.email || "").toLowerCase().includes(term);
+    const phoneMatch = (item.phone || "").toLowerCase().includes(term);
+    const roleMatch = item.role && (item.role.title || "").toLowerCase().includes(term);
+    return nameMatch || emailMatch || phoneMatch || roleMatch;
+  });
 
   const columns = [
     {
@@ -105,6 +116,14 @@ function AdminAccounts() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
         <Title level={3} style={{ margin: 0 }}>Quản lý tài khoản</Title>
         <Space>
+          <Input
+            placeholder="Tìm tài khoản, email, vai trò..."
+            prefix={<SearchOutlined />}
+            allowClear
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            style={{ width: 260 }}
+          />
           <Button icon={<ReloadOutlined />} onClick={fetchAccounts}>Làm mới</Button>
           <Button
             type="primary" icon={<PlusOutlined />}
@@ -118,7 +137,7 @@ function AdminAccounts() {
       <Card>
         <Table
           columns={columns}
-          dataSource={accounts}
+          dataSource={filteredAccounts}
           rowKey="id"
           loading={loading}
           pagination={{ pageSize: 10, showTotal: (t) => `Tổng ${t} tài khoản` }}

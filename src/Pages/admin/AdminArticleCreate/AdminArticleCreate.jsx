@@ -85,6 +85,7 @@ function AdminArticleCreate() {
           form={form}
           layout="vertical"
           onFinish={handleSubmit}
+          onFinishFailed={() => message.error("Vui lòng kiểm tra lại các trường thông tin bị thiếu hoặc sai định dạng!")}
           initialValues={{ status: "active" }}
           style={{ maxWidth: 900 }}
         >

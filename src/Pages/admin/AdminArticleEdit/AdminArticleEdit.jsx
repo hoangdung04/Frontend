@@ -118,6 +118,7 @@ function AdminArticleEdit() {
           form={form}
           layout="vertical"
           onFinish={handleSubmit}
+          onFinishFailed={() => message.error("Vui lòng kiểm tra lại các trường thông tin bị thiếu hoặc sai định dạng!")}
           style={{ maxWidth: 900 }}
         >
           <Form.Item

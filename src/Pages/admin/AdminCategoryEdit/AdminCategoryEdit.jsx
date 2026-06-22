@@ -100,7 +100,7 @@ function AdminCategoryEdit() {
         </div>
 
         <Card>
-          <Form form={form} layout="vertical" onFinish={onFinish}>
+          <Form form={form} layout="vertical" onFinish={onFinish} onFinishFailed={() => message.error("Vui lòng kiểm tra lại các trường thông tin bị thiếu hoặc sai định dạng!")}>
             <Form.Item
               label="Tên danh mục"
               name="title"

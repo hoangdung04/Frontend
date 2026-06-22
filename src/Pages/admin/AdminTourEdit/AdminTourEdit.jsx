@@ -145,6 +145,7 @@ function AdminTourEdit() {
             form={form}
             layout="vertical"
             onFinish={onFinish}
+            onFinishFailed={() => message.error("Vui lòng kiểm tra lại các trường thông tin bị thiếu hoặc sai định dạng!")}
           >
             <Form.Item
               label="Tiêu đề"

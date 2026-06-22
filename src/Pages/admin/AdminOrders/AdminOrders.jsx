@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   Table, Select, Tag, Typography, message, Card,
   Button, Space, Tooltip, Popconfirm, Input, DatePicker, Row, Col,
+  Tabs, Statistic
 } from "antd";
 import { EyeOutlined, DeleteOutlined, SearchOutlined, FilterOutlined, ReloadOutlined, ExportOutlined } from "@ant-design/icons";
 import { getAdminOrders, updateAdminOrderStatus, deleteAdminOrder } from "../../../services/api";
@@ -223,12 +224,69 @@ function AdminOrders() {
     },
   ];
 
+  // Thống kê doanh thu & đơn hàng
+  const totalCount = filteredOrders.length;
+  const unpaidCount = filteredOrders.filter(o => o.status === "initial" || o.status === "Khởi tạo").length;
+  const paidCount = filteredOrders.filter(o => o.status === "paid" || o.status === "Đã thanh toán").length;
+  const completedCount = filteredOrders.filter(o => o.status === "completed" || o.status === "Hoàn thành").length;
+  const cancelledCount = filteredOrders.filter(o => o.status === "cancelled" || o.status === "Đã hủy").length;
+  const totalRevenue = filteredOrders.reduce((sum, order) => sum + Number(order.total_price || 0), 0);
+
+  const handleTabChange = (key) => {
+    setFilters(prev => ({ ...prev, status: key === "all" ? "" : key }));
+  };
+
   return (
     <div style={{ padding: 24 }}>
       <Title level={3} style={{ marginBottom: 20 }}>Quản lý Đơn đặt Tour</Title>
 
-      {/* ====== Bộ tìm kiếm / lọc ====== */}
-      <Card style={{ marginBottom: 16 }}>
+      {/* ====== Bảng thống kê số liệu & tổng doanh thu ====== */}
+      <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
+        <Col xs={24} sm={12} md={6}>
+          <Card bordered={false} style={{ background: "#e6f7ff", borderRadius: 8, boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
+            <Statistic
+              title="Tổng số đơn hiển thị"
+              value={totalCount}
+              valueStyle={{ color: '#1890ff', fontWeight: 'bold' }}
+              suffix="đơn"
+            />
+          </Card>
+        </Col>
+        <Col xs={24} sm={12} md={6}>
+          <Card bordered={false} style={{ background: "#f6ffed", borderRadius: 8, boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
+            <Statistic
+              title="Tổng doanh thu lọc được"
+              value={totalRevenue}
+              precision={0}
+              valueStyle={{ color: '#52c41a', fontWeight: 'bold' }}
+              suffix="đ"
+            />
+          </Card>
+        </Col>
+        <Col xs={24} sm={12} md={6}>
+          <Card bordered={false} style={{ background: "#fffbe6", borderRadius: 8, boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
+            <Statistic
+              title="Đơn chờ thanh toán"
+              value={unpaidCount}
+              valueStyle={{ color: '#faad14', fontWeight: 'bold' }}
+              suffix="đơn"
+            />
+          </Card>
+        </Col>
+        <Col xs={24} sm={12} md={6}>
+          <Card bordered={false} style={{ background: "#fff2f0", borderRadius: 8, boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
+            <Statistic
+              title="Đơn đã hủy"
+              value={cancelledCount}
+              valueStyle={{ color: '#ff4d4f', fontWeight: 'bold' }}
+              suffix="đơn"
+            />
+          </Card>
+        </Col>
+      </Row>
+
+      {/* ====== Bộ tìm kiếm / lọc nâng cao ====== */}
+      <Card style={{ marginBottom: 16, borderRadius: 8 }}>
         <Row gutter={[12, 12]} align="middle" justify="space-between">
           <Col xs={24} md={18}>
             <Row gutter={[12, 12]} align="middle">
@@ -243,7 +301,7 @@ function AdminOrders() {
               </Col>
               <Col xs={12} sm={6}>
                 <Select
-                  placeholder="Trạng thái"
+                  placeholder="Chọn trạng thái"
                   allowClear
                   style={{ width: "100%" }}
                   value={filters.status || undefined}
@@ -286,7 +344,21 @@ function AdminOrders() {
         </Row>
       </Card>
 
-      <Card>
+      {/* ====== Tabs trạng thái đơn hàng (Quick Filters) ====== */}
+      <Tabs
+        activeKey={filters.status || "all"}
+        onChange={handleTabChange}
+        style={{ marginBottom: 16 }}
+        items={[
+          { key: "all", label: `Tất cả (${orders.length})` },
+          { key: "initial", label: `Chờ thanh toán (${orders.filter(o => o.status === "initial" || o.status === "Khởi tạo").length})` },
+          { key: "paid", label: `Đã thanh toán (${orders.filter(o => o.status === "paid" || o.status === "Đã thanh toán").length})` },
+          { key: "completed", label: `Hoàn thành (${orders.filter(o => o.status === "completed" || o.status === "Hoàn thành").length})` },
+          { key: "cancelled", label: `Đã hủy (${orders.filter(o => o.status === "cancelled" || o.status === "Đã hủy").length})` },
+        ]}
+      />
+
+      <Card style={{ borderRadius: 8 }}>
         <Table
           columns={columns}
           dataSource={filteredOrders}

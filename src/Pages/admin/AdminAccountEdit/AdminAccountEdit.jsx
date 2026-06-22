@@ -105,6 +105,7 @@ function AdminAccountEdit() {
           form={form}
           layout="vertical"
           onFinish={onFinish}
+          onFinishFailed={() => message.error("Vui lòng kiểm tra lại các trường thông tin bị thiếu hoặc sai định dạng!")}
         >
           <Row gutter={24}>
             <Col xs={24} md={12}>

@@ -123,6 +123,7 @@ function AdminTourCreate() {
             form={form}
             layout="vertical"
             onFinish={onFinish}
+            onFinishFailed={() => message.error("Vui lòng kiểm tra và nhập đầy đủ thông tin các trường bắt buộc!")}
             initialValues={{
               status: 'active',
               price: 0,

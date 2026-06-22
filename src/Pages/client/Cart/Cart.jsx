@@ -299,6 +299,7 @@ function Cart() {
               form={form}
               layout="vertical"
               onFinish={handleOrder}
+              onFinishFailed={() => message.error("Vui lòng điền đầy đủ và đúng định dạng các trường thông tin bắt buộc!")}
               style={{ maxWidth: 600 }}
             >
               <Form.Item

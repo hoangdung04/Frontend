@@ -78,6 +78,7 @@ function AdminAccountCreate() {
           form={form}
           layout="vertical"
           onFinish={onFinish}
+          onFinishFailed={() => message.error("Vui lòng kiểm tra lại các trường thông tin bị thiếu hoặc sai định dạng!")}
           initialValues={{ status: "active" }}
         >
           <Row gutter={24}>
